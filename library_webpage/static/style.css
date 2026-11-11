@@ -1,0 +1,430 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    background: #f4f6fb;
+    color: #20283a;
+    min-height: 100vh;
+}
+
+button, input, select {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+.top-header {
+    background: #263b65;
+    color: white;
+    padding: 34px 5%;
+}
+
+.header-inner {
+    max-width: 1180px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.eyebrow {
+    color: #aebfe5;
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 1.5px;
+    margin-bottom: 9px;
+}
+
+h1 {
+    font-size: 30px;
+    margin-bottom: 8px;
+}
+
+.header-subtitle {
+    color: #d7deed;
+    font-size: 14px;
+}
+
+.page-container {
+    max-width: 1180px;
+    margin: 28px auto;
+    padding: 0 22px;
+}
+
+.primary-button, .secondary-button {
+    border: 0;
+    border-radius: 7px;
+    padding: 11px 17px;
+    font-weight: bold;
+}
+
+.primary-button {
+    background: #e4a84c;
+    color: #20283a;
+}
+
+.primary-button:hover {
+    background: #f0b95e;
+}
+
+.secondary-button {
+    background: #e9edf5;
+    color: #34415b;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 22px;
+}
+
+.stat-card {
+    background: white;
+    border: 1px solid #e3e7ef;
+    border-radius: 10px;
+    padding: 19px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.stat-icon {
+    width: 43px;
+    height: 43px;
+    display: grid;
+    place-items: center;
+    background: #edf1fa;
+    border-radius: 9px;
+    font-size: 21px;
+}
+
+.stat-card p {
+    color: #778198;
+    font-size: 13px;
+    margin-bottom: 5px;
+}
+
+.stat-card strong {
+    font-size: 24px;
+}
+
+.content-card {
+    background: white;
+    border: 1px solid #e3e7ef;
+    border-radius: 10px;
+    padding: 23px;
+}
+
+.section-heading {
+    margin-bottom: 20px;
+}
+
+.section-heading h2 {
+    font-size: 20px;
+    margin-bottom: 6px;
+}
+
+.section-heading p {
+    color: #778198;
+    font-size: 13px;
+}
+
+.filter-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.search-control {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    border: 1px solid #dce1eb;
+    border-radius: 7px;
+    padding: 0 12px;
+    color: #7a8499;
+}
+
+.search-control input {
+    width: 100%;
+    border: 0;
+    outline: 0;
+    padding: 11px 0;
+}
+
+.filter-row select, #bookForm input, #bookForm select {
+    border: 1px solid #dce1eb;
+    border-radius: 7px;
+    padding: 11px;
+    background: white;
+    color: #34415b;
+}
+
+.table-wrap {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    min-width: 700px;
+}
+
+th {
+    background: #f6f7fa;
+    color: #778198;
+    font-size: 11px;
+    letter-spacing: .5px;
+    padding: 13px 12px;
+}
+
+td {
+    padding: 15px 12px;
+    border-bottom: 1px solid #edf0f5;
+    font-size: 13px;
+}
+
+.book-title {
+    font-weight: bold;
+    color: #273653;
+    margin-bottom: 5px;
+}
+
+.book-author {
+    color: #8992a4;
+    font-size: 12px;
+}
+
+.library-name {
+    font-weight: bold;
+    color: #475574;
+}
+
+.isbn-text {
+    color: #68748b;
+}
+
+.status-pill {
+    display: inline-block;
+    border-radius: 20px;
+    padding: 5px 10px;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.available {
+    background: #e4f6eb;
+    color: #23834a;
+}
+
+.issued {
+    background: #fff0dc;
+    color: #a56513;
+}
+
+.actions-heading {
+    text-align: right;
+}
+
+.row-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 7px;
+}
+
+.small-button {
+    border: 0;
+    border-radius: 5px;
+    padding: 7px 9px;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.edit-button {
+    background: #e8edfa;
+    color: #35528d;
+}
+
+.delete-button {
+    background: #fde9e9;
+    color: #b83d3d;
+}
+
+.issue-button {
+    background: #e4f6eb;
+    color: #23834a;
+}
+
+.return-button {
+    background: #fff0dc;
+    color: #a56513;
+}
+
+.empty-state {
+    text-align: center;
+    color: #8992a4;
+    padding: 35px;
+}
+
+.table-note {
+    color: #8992a4;
+    font-size: 12px;
+    margin-top: 14px;
+}
+
+.modal-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(18, 27, 45, .55);
+    align-items: center;
+    justify-content: center;
+    padding: 18px;
+    z-index: 10;
+}
+
+.modal-backdrop.show {
+    display: flex;
+}
+
+.book-modal {
+    background: white;
+    width: 100%;
+    max-width: 470px;
+    border-radius: 11px;
+    padding: 25px;
+    max-height: 95vh;
+    overflow-y: auto;
+}
+
+.modal-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+.modal-heading h2 {
+    font-size: 21px;
+}
+
+.modal-heading .eyebrow {
+    color: #8b95a9;
+}
+
+.close-button {
+    border: 0;
+    background: none;
+    font-size: 27px;
+    color: #778198;
+}
+
+#bookForm label {
+    display: block;
+    color: #46516a;
+    font-size: 13px;
+    font-weight: bold;
+    margin-bottom: 13px;
+}
+
+#bookForm input, #bookForm select {
+    display: block;
+    width: 100%;
+    margin-top: 7px;
+    outline: none;
+}
+
+#bookForm input:focus, #bookForm select:focus {
+    border-color: #526da5;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.toast {
+    display: none;
+    position: fixed;
+    right: 22px;
+    bottom: 22px;
+    background: #263b65;
+    color: white;
+    padding: 13px 18px;
+    border-radius: 7px;
+    z-index: 20;
+    font-size: 13px;
+}
+
+.toast.show {
+    display: block;
+}
+
+.toast.error {
+    background: #b83d3d;
+}
+
+@media (max-width: 800px) {
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .filter-row {
+        flex-wrap: wrap;
+    }
+
+    .search-control {
+        flex-basis: 100%;
+    }
+
+    .filter-row select {
+        flex: 1;
+    }
+}
+
+@media (max-width: 520px) {
+    .header-inner {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 9px;
+    }
+
+    .stat-card {
+        padding: 12px;
+        gap: 8px;
+    }
+
+    .stat-icon {
+        width: 34px;
+        height: 34px;
+        font-size: 17px;
+    }
+
+    .stat-card strong {
+        font-size: 20px;
+    }
+
+    .content-card {
+        padding: 14px;
+    }
+}

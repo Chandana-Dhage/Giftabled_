@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Fest Event Portal | CRUD</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #f8f7fc;
+            color: #29243b;
+            padding-bottom: 3rem;
+        }
+
+        header {
+            background: #5b3b91;
+            color: #fff;
+            padding: 2.5rem 1rem;
+            text-align: center;
+        }
+
+        .page-heading {
+            max-width: 900px;
+            margin: auto;
+        }
+
+        .fest-label {
+            display: inline-block;
+            margin-bottom: .75rem;
+            padding: .3rem .8rem;
+            border-radius: 20px;
+            background: #7656aa;
+            font-size: .8rem;
+            font-weight: bold;
+        }
+
+        h1 {
+            margin-bottom: .5rem;
+            font-size: 2rem;
+        }
+
+        .page-subtitle {
+            color: #eee7f8;
+            font-size: .95rem;
+        }
+
+        .main-content {
+            max-width: 1100px;
+            margin: -1.25rem auto 0;
+            padding: 0 1rem;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .summary-card {
+            display: flex;
+            align-items: center;
+            gap: .9rem;
+            padding: 1.1rem;
+            background: #fff;
+            border: 1px solid #e7e2ef;
+            border-radius: 9px;
+        }
+
+        .summary-icon {
+            font-size: 1.5rem;
+        }
+
+        .summary-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .summary-label {
+            margin-top: .2rem;
+            color: #777184;
+            font-size: .82rem;
+        }
+
+        .events-panel {
+            margin-bottom: 1.25rem;
+            padding: 1.25rem;
+            background: #fff;
+            border: 1px solid #e7e2ef;
+            border-radius: 9px;
+        }
+
+        .toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .event-filters {
+            display: flex;
+            flex: 1;
+            min-width: 260px;
+            gap: .7rem;
+        }
+
+        .event-filters input,
+        .event-filters select,
+        .field-group input,
+        .field-group select {
+            width: 100%;
+            padding: .65rem .8rem;
+            border: 1px solid #d9d3e4;
+            border-radius: 6px;
+            background: #fff;
+            font-size: .9rem;
+        }
+
+        .event-filters input {
+            flex: 2;
+        }
+
+        .event-filters select {
+            flex: 1;
+        }
+
+        .event-filters input:focus,
+        .event-filters select:focus,
+        .field-group input:focus,
+        .field-group select:focus {
+            outline: 2px solid #d8c9ee;
+            border-color: #7656aa;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: .4rem;
+            padding: .65rem 1rem;
+            border: 0;
+            border-radius: 6px;
+            background: #5b3b91;
+            color: #fff;
+            font-size: .9rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: #472d75;
+        }
+
+        .empty-message {
+            padding: 2rem;
+            color: #8992a4;
+            text-align: center;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin-top: 1rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: .9rem;
+        }
+
+        th,
+        td {
+            padding: .85rem;
+            border-bottom: 1px solid #e9e5ef;
+            vertical-align: middle;
+        }
+
+        th {
+            background: #f5f2f9;
+            color: #594477;
+            font-size: .8rem;
+        }
+
+        tbody tr:hover {
+            background: #fbfaff;
+        }
+
+        .event-category {
+            display: inline-block;
+            padding: .25rem .6rem;
+            border-radius: 15px;
+            font-size: .75rem;
+            font-weight: bold;
+        }
+
+        .category-technical { background: #e0e7ff; color: #3730a3; }
+        .category-cultural { background: #fce7f3; color: #9d174d; }
+        .category-gaming { background: #ede9fe; color: #5b21b6; }
+        .category-workshop { background: #fef3c7; color: #92400e; }
+        .category-default { background: #f0eef3; color: #514b5c; }
+
+        .registration-info {
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+        }
+
+        .progress-track {
+            width: 75px;
+            height: 7px;
+            overflow: hidden;
+            border-radius: 10px;
+            background: #e7e1ef;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 10px;
+        }
+
+        .action-button {
+            margin: 2px;
+            padding: .35rem .6rem;
+            border: 0;
+            border-radius: 5px;
+            font-size: .78rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .register-button { background: #dcfce7; color: #15803d; }
+        .edit-button { background: #ede9fe; color: #5b3b91; }
+        .delete-button { background: #fee2e2; color: #b91c1c; }
+
+        .action-button:disabled {
+            cursor: not-allowed;
+            opacity: .5;
+        }
+
+        .dialog-backdrop {
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            background: rgba(15, 23, 42, .5);
+        }
+
+        .dialog-backdrop.active {
+            display: flex;
+        }
+
+        .event-dialog {
+            width: 100%;
+            max-width: 520px;
+            max-height: 95vh;
+            overflow-y: auto;
+            padding: 1.5rem;
+            border-radius: 10px;
+            background: #fff;
+        }
+
+        .dialog-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.2rem;
+        }
+
+        .dialog-header h3 {
+            font-size: 1.2rem;
+        }
+
+        .close-button {
+            border: 0;
+            background: transparent;
+            color: #777184;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .input-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: .75rem;
+        }
+
+        .field-group {
+            margin-bottom: .9rem;
+        }
+
+        .field-group label {
+            display: block;
+            margin-bottom: .35rem;
+            font-size: .85rem;
+            font-weight: bold;
+        }
+
+        .dialog-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: .7rem;
+            margin-top: 1.2rem;
+        }
+
+        .cancel-button {
+            background: #e5e1eb;
+            color: #40394d;
+        }
+
+        .notification {
+            position: fixed;
+            right: 1.5rem;
+            bottom: 1.5rem;
+            z-index: 200;
+            display: none;
+            padding: .8rem 1.2rem;
+            border-radius: 6px;
+            background: #29243b;
+            color: #fff;
+            font-size: .9rem;
+        }
+
+        .notification.success { background: #15803d; }
+        .notification.error { background: #b91c1c; }
+
+        @media (max-width: 650px) {
+            .toolbar,
+            .event-filters {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .event-filters {
+                min-width: 100%;
+            }
+
+            .input-row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            h1 {
+                font-size: 1.65rem;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="page-heading">
+            <span class="fest-label">Prabhav 2026</span>
+            <h1>Prabhav Event Portal</h1>
+            <p class="page-subtitle">Full CRUD Event Management System</p>
+        </div>
+    </header>
+
+    <div class="main-content">
+        <!-- Stats -->
+        <div class="summary-grid">
+            <div class="summary-card">
+                <div class="summary-icon">🎉</div>
+                <div>
+                    <div class="summary-value" id="statEvents">0</div>
+                    <div class="summary-label">Active Events</div>
+                </div>
+            </div>
+            <div class="summary-card">
+                <div class="summary-icon">🎟️</div>
+                <div>
+                    <div class="summary-value" id="statReg">0</div>
+                    <div class="summary-label">Total Registrations</div>
+                </div>
+            </div>
+            <div class="summary-card">
+                <div class="summary-icon">🏟️</div>
+                <div>
+                    <div class="summary-value" id="statCap">0</div>
+                    <div class="summary-label">Seating Capacity</div>
+                </div>
+            </div>
+            <div class="summary-card">
+                <div class="summary-icon">🏷️</div>
+                <div>
+                    <div class="summary-value" id="statCat">0</div>
+                    <div class="summary-label">Categories</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Controls & Table -->
+        <div class="events-panel">
+            <div class="toolbar">
+                <div class="event-filters">
+                    <input type="text" id="searchInput" placeholder="Search event, coordinator, or venue..." oninput="handleSearch()">
+                    <select id="categoryFilter" onchange="handleSearch()">
+                        <option value="All">All Categories</option>
+                    </select>
+                </div>
+                <button class="btn" onclick="openAddModal()">
+                    <span>➕</span> Add Fest Event
+                </button>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Event Details</th>
+                            <th>Category</th>
+                            <th>Date & Time</th>
+                            <th>Venue</th>
+                            <th>Coordinator</th>
+                            <th>Registration</th>
+                            <th style="text-align: right;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="eventsTableBody">
+                        <!-- Loaded dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add/Edit Modal -->
+    <div class="dialog-backdrop" id="eventModal">
+        <div class="event-dialog">
+            <div class="dialog-header">
+                <h3 id="modalTitle">Add Fest Event</h3>
+                <button class="close-button" onclick="closeModal()">&times;</button>
+            </div>
+            <form id="eventForm" onsubmit="handleFormSubmit(event)">
+                <input type="hidden" id="eventId">
+                <div class="field-group">
+                    <label for="eventTitle">Event Title *</label>
+                    <input type="text" id="eventTitle" required placeholder="e.g. Code-A-Thon: 24Hr Hackathon">
+                </div>
+                <div class="input-row">
+                    <div class="field-group">
+                        <label for="eventCategory">Category *</label>
+                        <select id="eventCategory" required>
+                            <option value="Technical">Technical</option>
+                            <option value="Cultural">Cultural</option>
+                            <option value="Gaming">Gaming</option>
+                            <option value="Workshop">Workshop</option>
+                            <option value="Sports">Sports</option>
+                        </select>
+                    </div>
+                    <div class="field-group">
+                        <label for="eventSeats">Total Seats *</label>
+                        <input type="number" id="eventSeats" required min="1" max="10000" placeholder="e.g. 60">
+                    </div>
+                </div>
+                <div class="input-row">
+                    <div class="field-group">
+                        <label for="eventDate">Date *</label>
+                        <input type="date" id="eventDate" required>
+                    </div>
+                    <div class="field-group">
+                        <label for="eventTime">Time *</label>
+                        <input type="text" id="eventTime" required placeholder="e.g. 10:00 AM">
+                    </div>
+                </div>
+                <div class="input-row">
+                    <div class="field-group">
+                        <label for="eventVenue">Venue *</label>
+                        <input type="text" id="eventVenue" required placeholder="e.g. Turing Innovation Lab">
+                    </div>
+                    <div class="field-group">
+                        <label for="eventCoordinator">Coordinator *</label>
+                        <input type="text" id="eventCoordinator" required placeholder="e.g. Aniket Kumar">
+                    </div>
+                </div>
+                <div class="dialog-actions">
+                    <button type="button" class="btn cancel-button" onclick="closeModal()">Cancel</button>
+                    <button type="submit" class="btn">Save Event</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div class="notification" id="notification"></div>
+
+    <script>
+        let allEvents = [];
+
+        async function fetchStats() {
+            try {
+                const res = await fetch('/api/stats');
+                const data = await res.json();
+                document.getElementById('statEvents').textContent = data.total_events;
+                document.getElementById('statReg').textContent = data.total_registrations;
+                document.getElementById('statCap').textContent = data.total_capacity;
+                document.getElementById('statCat').textContent = data.categories.length;
+
+                const catSelect = document.getElementById('categoryFilter');
+                const currentVal = catSelect.value;
+                catSelect.innerHTML = `<option value="All">All Categories</option>`;
+                data.categories.forEach(c => {
+                    const opt = document.createElement('option');
+                    opt.value = c;
+                    opt.textContent = c;
+                    if (c === currentVal) opt.selected = true;
+                    catSelect.appendChild(opt);
+                });
+            } catch (err) {
+                console.error("Failed to fetch stats", err);
+            }
+        }
+
+        async function loadEvents(search = '', category = 'All') {
+            try {
+                let url = '/api/events?';
+                if (search) url += `search=${encodeURIComponent(search)}&`;
+                if (category && category !== 'All') url += `category=${encodeURIComponent(category)}&`;
+
+                const res = await fetch(url);
+                allEvents = await res.json();
+                renderTable(allEvents);
+                fetchStats();
+            } catch (err) {
+                showToast("Failed to fetch fest events", "error");
+            }
+        }
+
+        function getCategoryClass(cat) {
+            const c = cat.toLowerCase();
+            if (c.includes('tech')) return 'category-technical';
+            if (c.includes('cult')) return 'category-cultural';
+            if (c.includes('game') || c.includes('gaming')) return 'category-gaming';
+            if (c.includes('work')) return 'category-workshop';
+            return 'category-default';
+        }
+
+        function renderTable(events) {
+            const tbody = document.getElementById('eventsTableBody');
+            tbody.innerHTML = '';
+
+            if (events.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" class="empty-message">No fest events found.</td></tr>`;
+                return;
+            }
+
+            events.forEach(e => {
+                const isFull = e.registered_seats >= e.max_seats;
+                const pct = Math.min(100, Math.round((e.registered_seats / e.max_seats) * 100));
+                const barColor = isFull ? '#ef4444' : '#7c3aed';
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><strong>${escapeHtml(e.title)}</strong></td>
+                    <td><span class="event-category ${getCategoryClass(e.category)}">${escapeHtml(e.category)}</span></td>
+                    <td>📅 ${escapeHtml(e.date)} <br><small style="color:#6b7280;">⏰ ${escapeHtml(e.time)}</small></td>
+                    <td>📍 ${escapeHtml(e.venue)}</td>
+                    <td>👤 ${escapeHtml(e.coordinator)}</td>
+                    <td>
+                        <div class="registration-info">
+                            <div class="progress-track">
+                                <div class="progress-fill" style="width: ${pct}%; background: ${barColor};"></div>
+                            </div>
+                            <small><strong>${e.registered_seats}/${e.max_seats}</strong> ${isFull ? '<span style="color:#ef4444;font-weight:700;">(Full)</span>' : ''}</small>
+                        </div>
+                    </td>
+                    <td style="text-align: right;">
+                        <button class="action-button register-button" onclick="registerForEvent(${e.id})" ${isFull ? 'disabled' : ''}>${isFull ? 'Booked' : 'Register'}</button>
+                        <button class="action-button edit-button" onclick="openEditModal(${e.id})">Edit</button>
+                        <button class="action-button delete-button" onclick="deleteEvent(${e.id}, '${escapeHtml(e.title)}')">Delete</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function handleSearch() {
+            const search = document.getElementById('searchInput').value;
+            const cat = document.getElementById('categoryFilter').value;
+            loadEvents(search, cat);
+        }
+
+        function openAddModal() {
+            document.getElementById('modalTitle').textContent = "Add Fest Event";
+            document.getElementById('eventId').value = "";
+            document.getElementById('eventForm').reset();
+            document.getElementById('eventModal').classList.add('active');
+        }
+
+        function openEditModal(id) {
+            const ev = allEvents.find(e => e.id === id);
+            if (!ev) return;
+
+            document.getElementById('modalTitle').textContent = "Edit Fest Event";
+            document.getElementById('eventId').value = ev.id;
+            document.getElementById('eventTitle').value = ev.title;
+            document.getElementById('eventCategory').value = ev.category;
+            document.getElementById('eventSeats').value = ev.max_seats;
+            document.getElementById('eventDate').value = ev.date;
+            document.getElementById('eventTime').value = ev.time;
+            document.getElementById('eventVenue').value = ev.venue;
+            document.getElementById('eventCoordinator').value = ev.coordinator;
+
+            document.getElementById('eventModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('eventModal').classList.remove('active');
+        }
+
+        async function handleFormSubmit(e) {
+            e.preventDefault();
+            const id = document.getElementById('eventId').value;
+            const payload = {
+                title: document.getElementById('eventTitle').value,
+                category: document.getElementById('eventCategory').value,
+                max_seats: parseInt(document.getElementById('eventSeats').value),
+                date: document.getElementById('eventDate').value,
+                time: document.getElementById('eventTime').value,
+                venue: document.getElementById('eventVenue').value,
+                coordinator: document.getElementById('eventCoordinator').value
+            };
+
+            try {
+                if (id) {
+                    const res = await fetch(`/api/events/${id}`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    const resData = await res.json();
+                    if (!res.ok) throw new Error(resData.detail || "Failed to update event");
+                    showToast("Event updated successfully", "success");
+                } else {
+                    const res = await fetch('/api/events', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    const resData = await res.json();
+                    if (!res.ok) throw new Error(resData.detail || "Failed to create event");
+                    showToast("Fest event created successfully", "success");
+                }
+                closeModal();
+                handleSearch();
+            } catch (err) {
+                showToast(err.message, "error");
+            }
+        }
+
+        async function registerForEvent(id) {
+            try {
+                const res = await fetch(`/api/events/${id}/register`, { method: 'POST' });
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.detail || "Registration failed");
+                showToast(data.message, "success");
+                handleSearch();
+            } catch (err) {
+                showToast(err.message, "error");
+            }
+        }
+
+        async function deleteEvent(id, title) {
+            if (!confirm(`Are you sure you want to cancel and delete event "${title}"?`)) return;
+
+            try {
+                const res = await fetch(`/api/events/${id}`, { method: 'DELETE' });
+                if (!res.ok) throw new Error("Failed to delete event");
+                showToast(`Event "${title}" deleted successfully`, "success");
+                handleSearch();
+            } catch (err) {
+                showToast(err.message, "error");
+            }
+        }
+
+        function showToast(msg, type = "success") {
+            const notification = document.getElementById('notification');
+            notification.textContent = msg;
+            notification.className = `notification ${type}`;
+            notification.style.display = 'block';
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+        }
+
+        // Initial Load
+        loadEvents();
+    </script>
+</body>
+</html>

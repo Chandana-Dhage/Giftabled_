@@ -1,0 +1,94 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Personal Expense Tracker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>Personal Expense Tracker</h1>
+
+
+        <div class="section">
+
+            <h2>Add Expense</h2>
+
+            <input type="number" id="expenseId" placeholder="Expense ID">
+
+            <input type="text" id="description" placeholder="Description">
+
+            <input type="number" id="amount" placeholder="Amount">
+
+            <input type="text" id="category" placeholder="Category">
+
+            <button onclick="addExpense()">Add Expense</button>
+
+        </div>
+
+
+
+        <div class="section">
+
+            <h2>View Expense</h2>
+
+            <input type="number" id="viewId" placeholder="Expense ID">
+
+            <button onclick="viewExpense()">View Expense</button>
+
+            <button onclick="viewAllExpenses()">View All Expenses</button>
+
+        </div>
+
+
+
+        <div class="section">
+
+            <h2>Update Expense</h2>
+
+            <input type="number" id="updateId" placeholder="Existing Expense ID">
+
+            <input type="text" id="updateDescription" placeholder="New Description">
+
+            <input type="number" id="updateAmount" placeholder="New Amount">
+
+            <input type="text" id="updateCategory" placeholder="New Category">
+
+            <button onclick="updateExpense()">Update Expense</button>
+
+        </div>
+
+
+        <div class="section">
+
+            <h2>Delete Expense</h2>
+
+            <input type="number" id="deleteId" placeholder="Expense ID">
+
+            <button onclick="deleteExpense()">Delete Expense</button>
+
+        </div>
+
+
+
+        <div class="section">
+
+            <h2>Expense Records</h2>
+
+            <p id="actionMessage"></p>
+
+            <div id="result"></div>
+
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

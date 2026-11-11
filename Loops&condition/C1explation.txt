@@ -1,0 +1,9 @@
+Which Part B problem did you choose, and why that one?
+    I choose greatest and second greatest number, it required less logic. Will be looking forward to work with other problems too.
+
+Describe one thing that did not work the first time, what you thought was wrong, and what was actually wrong.
+    Pattern matching problem. Space that should be needed was quit complicated got different result most of the time.
+
+In one sentence each: when would you use a while loop, and when would you use a for loop?
+    While loop : when we want to repeat until a condition becomes false.
+    For loop : when we want to repeat a fixed number of times or for each item in a sequence.

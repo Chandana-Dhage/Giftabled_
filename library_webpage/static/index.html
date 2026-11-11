@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giftabled | Library Management</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header class="top-header">
+        <div class="header-inner">
+            <div>
+                <p class="eyebrow">GIFTABLED • BOOK COLLECTION</p>
+                <h1>Library Management System</h1>
+                <p class="header-subtitle">Manage books across multiple libraries in one place.</p>
+            </div>
+            <button class="primary-button" id="addBookButton">＋ Add Book</button>
+        </div>
+    </header>
+
+    <main class="page-container">
+        <section class="stats-grid" aria-label="Library statistics">
+            <article class="stat-card"><span class="stat-icon">📚</span><div><p>Total Books</p><strong id="totalBooks">0</strong></div></article>
+            <article class="stat-card"><span class="stat-icon">📖</span><div><p>Available</p><strong id="availableBooks">0</strong></div></article>
+            <article class="stat-card"><span class="stat-icon">📤</span><div><p>Issued</p><strong id="issuedBooks">0</strong></div></article>
+            <article class="stat-card"><span class="stat-icon">🏛️</span><div><p>Libraries</p><strong id="totalLibraries">0</strong></div></article>
+        </section>
+
+        <section class="content-card">
+            <div class="section-heading">
+                <div><h2>Book Collection</h2><p>Search, filter, add, update, issue, return, or remove books.</p></div>
+            </div>
+
+            <div class="filter-row">
+                <label class="search-control">
+                    <span>⌕</span>
+                    <input type="search" id="searchInput" placeholder="Search title, author, ISBN or library">
+                </label>
+                <select id="libraryFilter" aria-label="Filter by library">
+                    <option value="">All Libraries</option>
+                </select>
+                <select id="statusFilter" aria-label="Filter by status">
+                    <option value="All">All Status</option>
+                    <option value="Available">Available</option>
+                    <option value="Issued">Issued</option>
+                </select>
+            </div>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>BOOK DETAILS</th>
+                            <th>LIBRARY</th>
+                            <th>ISBN</th>
+                            <th>STATUS</th>
+                            <th class="actions-heading">ACTIONS</th>
+                        </tr>
+                    </thead>
+                    <tbody id="booksTable">
+                        <tr><td colspan="5" class="empty-state">Loading books...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="table-note" id="resultCount">Showing 0 books</p>
+        </section>
+    </main>
+
+    <div class="modal-backdrop" id="bookModal" aria-hidden="true">
+        <section class="book-modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+            <div class="modal-heading">
+                <div><p class="eyebrow">BOOK INFORMATION</p><h2 id="modalTitle">Add a Book</h2></div>
+                <button class="close-button" id="closeModalButton" aria-label="Close">×</button>
+            </div>
+            <form id="bookForm">
+                <input type="hidden" id="bookId">
+                <label>Library Name<input id="libraryName" required maxlength="100" placeholder="e.g. Central Library"></label>
+                <label>Book Title<input id="bookTitle" required maxlength="200" placeholder="Enter book title"></label>
+                <label>Author Name<input id="authorName" required maxlength="120" placeholder="Enter author name"></label>
+                <label>ISBN<input id="isbn" required maxlength="30" placeholder="Enter unique ISBN"></label>
+                <label>Availability
+                    <select id="bookStatus">
+                        <option value="Available">Available</option>
+                        <option value="Issued">Issued</option>
+                    </select>
+                </label>
+                <div class="modal-actions">
+                    <button type="button" class="secondary-button" id="cancelButton">Cancel</button>
+                    <button type="submit" class="primary-button" id="saveButton">Save Book</button>
+                </div>
+            </form>
+        </section>
+    </div>
+
+    <div class="toast" id="toast" role="status"></div>
+    <script src="/static/app.js"></script>
+</body>
+</html>

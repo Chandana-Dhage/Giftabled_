@@ -1,0 +1,1 @@
+This project manages the personal expenses of an individual, performs CRUD operations on expenses and displays the total expenses.

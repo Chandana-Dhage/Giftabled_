@@ -1,0 +1,821 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Management Portal</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f8fafc;
+            color: #1e293b;
+            padding-bottom: 3rem;
+        }
+
+        header {
+            background: #4f46e5;
+            color: white;
+            padding: 2rem 1rem;
+            text-align: center;
+        }
+
+        .header-content {
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: #c7d2fe;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: -1rem auto 0;
+            padding: 0 1rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .stat-icon {
+            font-size: 1.5rem;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: #64748b;
+        }
+
+        .card {
+            background: white;
+            padding: 1.5rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .search-box input,
+        .form-group input {
+            width: 100%;
+            padding: 0.65rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            outline: none;
+        }
+
+        .search-box input:focus,
+        .form-group input:focus {
+            border-color: #4f46e5;
+        }
+
+        .btn {
+            background: #4f46e5;
+            color: white;
+            border: none;
+            padding: 0.65rem 1.2rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .btn:hover {
+            background: #4338ca;
+        }
+
+        .edit-btn {
+            background: #e0e7ff;
+            color: #4338ca;
+            border: none;
+            padding: 0.4rem 0.7rem;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .delete-btn {
+            background: #fee2e2;
+            color: #b91c1c;
+            border: none;
+            padding: 0.4rem 0.7rem;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .cancel-btn {
+            background: #e2e8f0;
+            color: #475569;
+        }
+        .table-container {
+            overflow-x: auto;
+            margin-top: 1rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th {
+            background: #f1f5f9;
+            padding: 0.85rem;
+            color: #475569;
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .course-badge {
+            background: #e0f2fe;
+            color: #0369a1;
+            padding: 0.3rem 0.6rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.6rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .pass {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .fail {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .progress-bg {
+            background: #e2e8f0;
+            height: 6px;
+            width: 90px;
+            display: inline-block;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+        }
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: white;
+            width: 100%;
+            max-width: 480px;
+            padding: 1.5rem;
+            border-radius: 10px;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.4rem;
+            font-weight: bold;
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: #1e293b;
+            color: white;
+            padding: 1rem;
+            border-radius: 6px;
+            display: none;
+            z-index: 200;
+        }
+
+        .toast.success {
+            background: #059669;
+        }
+
+        .toast.error {
+            background: #dc2626;
+        }
+
+
+        @media (max-width: 600px) {
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .search-box {
+                width: 100%;
+            }
+
+            .toast {
+                right: 1rem;
+                left: 1rem;
+                bottom: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="header-content">
+            <h1>Student Management System</h1>
+            <p class="subtitle">
+                Assignment 14 &bull; Full CRUD Web Application with FastAPI Backend
+            </p>
+        </div>
+    </header>
+
+    <div class="container">
+
+
+        <div class="stats-grid">
+
+            <div class="stat-card">
+                <div class="stat-icon">🎓</div>
+                <div>
+                    <div class="stat-value" id="statTotal">0</div>
+                    <div class="stat-label">Total Students</div>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">📈</div>
+                <div>
+                    <div class="stat-value" id="statAvg">0%</div>
+                    <div class="stat-label">Class Average</div>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">✅</div>
+                <div>
+                    <div class="stat-value" id="statPassed">0</div>
+                    <div class="stat-label">Passed Students</div>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">🏆</div>
+                <div>
+                    <div class="stat-value" id="statTop">-</div>
+                    <div class="stat-label">Top Scorer</div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="card">
+
+            <div class="controls">
+
+                <div class="search-box">
+                    <input
+                        type="text"
+                        id="searchInput"
+                        placeholder="Search by name, email, or course..."
+                        oninput="handleSearch()"
+                    >
+                </div>
+
+                <button class="btn" onclick="openAddModal()">
+                    ➕ Add New Student
+                </button>
+
+            </div>
+
+            <div class="table-container">
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Student Name</th>
+                            <th>Email</th>
+                            <th>Course</th>
+                            <th>Marks</th>
+                            <th>Status</th>
+                            <th style="text-align: right;">Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="studentsTableBody">
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Add/Edit Modal -->
+
+    <div class="modal-overlay" id="studentModal">
+
+        <div class="modal">
+
+            <div class="modal-header">
+                <h3 id="modalTitle">Add Student</h3>
+
+                <button class="modal-close" onclick="closeModal()">
+                    &times;
+                </button>
+            </div>
+
+            <form id="studentForm" onsubmit="handleFormSubmit(event)">
+
+                <input type="hidden" id="studentId">
+
+                <div class="form-group">
+                    <label for="studentName">Full Name *</label>
+                    <input
+                        type="text"
+                        id="studentName"
+                        required
+                        placeholder="e.g. Aniket Kumar"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="studentEmail">Email Address *</label>
+                    <input
+                        type="email"
+                        id="studentEmail"
+                        required
+                        placeholder="e.g. aniket@example.com"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="studentCourse">Course *</label>
+                    <input
+                        type="text"
+                        id="studentCourse"
+                        required
+                        placeholder="e.g. Python Fullstack"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="studentMarks">Marks (0 - 100) *</label>
+                    <input
+                        type="number"
+                        id="studentMarks"
+                        required
+                        min="0"
+                        max="100"
+                        step="0.5"
+                        placeholder="e.g. 88.5"
+                    >
+                </div>
+
+                <div class="modal-actions">
+
+                    <button
+                        type="button"
+                        class="btn cancel-btn"
+                        onclick="closeModal()"
+                    >
+                        Cancel
+                    </button>
+
+                    <button type="submit" class="btn" id="submitBtn">
+                        Save Student
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+
+        let allStudents = [];
+
+        async function fetchStats() {
+
+            try {
+
+                const res = await fetch('/api/stats');
+                const data = await res.json();
+
+                document.getElementById('statTotal').textContent = data.total;
+                document.getElementById('statAvg').textContent = data.avg + '%';
+                document.getElementById('statPassed').textContent = data.pass_count;
+                document.getElementById('statTop').textContent = data.top_student;
+
+            } catch (err) {
+
+                console.error("Failed to load stats", err);
+
+            }
+        }
+
+        async function loadStudents(search = '') {
+
+            try {
+
+                const url = search
+                    ? `/api/students?search=${encodeURIComponent(search)}`
+                    : '/api/students';
+
+                const res = await fetch(url);
+
+                if (!res.ok) {
+                    throw new Error("Failed to load students");
+                }
+
+                allStudents = await res.json();
+
+                renderTable(allStudents);
+                fetchStats();
+
+            } catch (err) {
+
+                showToast("Failed to fetch students from server", "error");
+
+            }
+        }
+
+        // Display Students
+
+        function renderTable(students) {
+
+            const tbody = document.getElementById('studentsTableBody');
+
+            tbody.innerHTML = '';
+
+            if (students.length === 0) {
+
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7" style="text-align:center;">
+                            No student records found.
+                        </td>
+                    </tr>
+                `;
+
+                return;
+            }
+
+            students.forEach(s => {
+
+                const isPass = s.marks >= 50;
+
+                const statusBadge = isPass
+                    ? `<span class="status-badge pass">Pass</span>`
+                    : `<span class="status-badge fail">Fail</span>`;
+
+                const fillColor = isPass ? '#10b981' : '#ef4444';
+
+                const tr = document.createElement('tr');
+
+                tr.innerHTML = `
+                    <td><strong>#${s.id}</strong></td>
+
+                    <td><strong>${escapeHtml(s.name)}</strong></td>
+
+                    <td>${escapeHtml(s.email)}</td>
+
+                    <td>
+                        <span class="course-badge">
+                            ${escapeHtml(s.course)}
+                        </span>
+                    </td>
+
+                    <td>
+                        <div class="progress-bg">
+                            <div
+                                class="progress-fill"
+                                style="width: ${s.marks}%; background: ${fillColor};"
+                            ></div>
+                        </div>
+
+                        <strong>${s.marks}%</strong>
+                    </td>
+
+                    <td>${statusBadge}</td>
+
+                    <td style="text-align: right;">
+
+                        <button
+                            class="edit-btn"
+                            onclick="openEditModal(${s.id})"
+                        >
+                            Edit
+                        </button>
+
+                        <button
+                            class="delete-btn"
+                            onclick="deleteStudent(${s.id}, '${escapeHtml(s.name)}')"
+                        >
+                            Delete
+                        </button>
+
+                    </td>
+                `;
+
+                tbody.appendChild(tr);
+
+            });
+        }
+
+        // Search Students
+
+        function handleSearch() {
+
+            const query = document.getElementById('searchInput').value;
+
+            loadStudents(query);
+
+        }
+
+        // Open Add Modal
+
+        function openAddModal() {
+
+            document.getElementById('modalTitle').textContent = "Add New Student";
+
+            document.getElementById('studentId').value = "";
+
+            document.getElementById('studentForm').reset();
+
+            document.getElementById('studentModal').classList.add('active');
+
+        }
+
+        // Open Edit Modal
+
+        function openEditModal(id) {
+
+            const student = allStudents.find(s => s.id === id);
+
+            if (!student) return;
+
+            document.getElementById('modalTitle').textContent = "Edit Student";
+
+            document.getElementById('studentId').value = student.id;
+
+            document.getElementById('studentName').value = student.name;
+
+            document.getElementById('studentEmail').value = student.email;
+
+            document.getElementById('studentCourse').value = student.course;
+
+            document.getElementById('studentMarks').value = student.marks;
+
+            document.getElementById('studentModal').classList.add('active');
+
+        }
+
+        // Close Modal
+
+        function closeModal() {
+
+            document.getElementById('studentModal').classList.remove('active');
+
+        }
+
+        // Add or Update Student
+
+        async function handleFormSubmit(e) {
+
+            e.preventDefault();
+
+            const id = document.getElementById('studentId').value;
+
+            const payload = {
+
+                name: document.getElementById('studentName').value,
+
+                email: document.getElementById('studentEmail').value,
+
+                course: document.getElementById('studentCourse').value,
+
+                marks: parseFloat(
+                    document.getElementById('studentMarks').value
+                )
+
+            };
+
+            try {
+
+                if (id) {
+
+                    const res = await fetch(`/api/students/${id}`, {
+
+                        method: 'PUT',
+
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+
+                        body: JSON.stringify(payload)
+
+                    });
+
+                    if (!res.ok) {
+                        throw new Error("Failed to update");
+                    }
+
+                    showToast("Student updated successfully", "success");
+
+                } else {
+
+                    const res = await fetch('/api/students', {
+
+                        method: 'POST',
+
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+
+                        body: JSON.stringify(payload)
+
+                    });
+
+                    if (!res.ok) {
+                        throw new Error("Failed to create");
+                    }
+
+                    showToast("Student created successfully", "success");
+
+                }
+
+                closeModal();
+
+                loadStudents(
+                    document.getElementById('searchInput').value
+                );
+
+            } catch (err) {
+
+                showToast(err.message, "error");
+
+            }
+        }
+
+        // Delete Student
+
+        async function deleteStudent(id, name) {
+
+            if (!confirm(`Are you sure you want to delete student "${name}"?`)) {
+                return;
+            }
+
+            try {
+
+                const res = await fetch(`/api/students/${id}`, {
+                    method: 'DELETE'
+                });
+
+                if (!res.ok) {
+                    throw new Error("Failed to delete");
+                }
+
+                showToast(
+                    `Student "${name}" deleted successfully`,
+                    "success"
+                );
+
+                loadStudents(
+                    document.getElementById('searchInput').value
+                );
+
+            } catch (err) {
+
+                showToast(err.message, "error");
+
+            }
+        }
+
+        // Show Notification
+
+        function showToast(msg, type = "success") {
+
+            const toast = document.getElementById('toast');
+
+            toast.textContent = msg;
+
+            toast.className = `toast ${type}`;
+
+            toast.style.display = 'block';
+
+            setTimeout(() => {
+
+                toast.style.display = 'none';
+
+            }, 3000);
+
+        }
+        function escapeHtml(str) {
+
+            if (!str) return '';
+
+            return String(str)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+
+        }
+
+        loadStudents();
+
+    </script>
+
+</body>
+</html>
