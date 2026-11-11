@@ -1,0 +1,7 @@
+Library_Name,Book_Title,Author_Name,ISBN,Status
+Local_Lib,Rock Paper Scissors,Alice Feeney,44789657433,Available
+Local_Lib,You are the Best Wife, Ajay Pandey,894532158444,Checked out
+Central_Lib,Verity,Coolen Hoveer,546321475123,Available
+Central_Lib,The Slient Patient,Alex Michaelides,45876453452512,Checked out
+Local_Lib,Never Lie,Fredia McFadden,54686453124,Available
+Central_Lib,Five Survive,Holly Jackson,5487542345585,Checked out
